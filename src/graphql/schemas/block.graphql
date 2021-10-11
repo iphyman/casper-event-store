@@ -1,0 +1,82 @@
+type Block {
+  # Block hash of this block
+  blockHash: String!
+
+  # Parent hash of this block
+  parentHash: String!
+
+  # Body hash of this block
+  bodyHash: String!
+
+  # Accumulated seed
+  accumulatedSeed: String!
+
+  # Timestamp this block was added
+  timestamp: String!
+
+  # Era id
+  eraId: String!
+
+  # Current block height
+  height: String!
+
+  # Proposer of this transaction
+  proposer: String!
+
+  # Current state of this block
+  state: String!
+
+  # Deploys relating to this block
+  deploys: [Deploy]
+}
+
+type Deploy {
+  # Hash of the deploy
+  deployHash: String!
+
+  # Account
+  account: String!
+
+  # Current block state of the deploy
+  state: String!
+
+  # Cost of the deploy in mot stored (uint64)
+  cost: String!
+}
+
+enum FindBlockBy {
+  # A hash of a block
+  BLOCKHASH
+
+  # height of a block
+  BLOCKHEIGHT
+
+  # hash of a deploy
+  DEPLOYHASH
+
+  # casper account
+  ACCOUNT
+}
+
+type Query {
+  # All casper blockchain main events
+  # All stored on our DB
+  blocks: [Block]
+
+  # Single casper blockchain main event
+  # Stored on our DB
+  #
+  # Arguments
+  # search: required parameter to find a block
+  # searchBy: required parameter to find a block
+  block(search: String!, searchBy: FindBlockBy!): Block
+}
+
+type Subscription {
+  # Subscribe to the blocks updates
+  #
+  # Arguments
+  # search: required parameter to find a block
+  # searchBy: required parameter to find a block
+  blocks(search: String!, searchBy: FindBlockBy!): [Block]
+}
